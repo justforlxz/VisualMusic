@@ -8,6 +8,7 @@
 #include <QWidget>
 #include <DBlurEffectWidget>
 #include <dmpriscontrol.h>
+#include <QMouseEvent>
 
 DWIDGET_USE_NAMESPACE
 
@@ -25,8 +26,12 @@ private:
     void mprisAcquired(const QString &path);
     void mprisLost(const QString &path);
     void metadataChanged();
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
 
-private:
+    QPoint m_point;
+    bool isMLBD;
     QLabel *m_coverLbl;
     QLabel *m_songLbl;
     QLabel *m_authorLbl;

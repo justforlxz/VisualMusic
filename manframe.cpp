@@ -9,6 +9,8 @@
 ManFrame::ManFrame(QWidget *parent)
     : DBlurEffectWidget(parent)
 {
+    isMLBD = false;
+    resize(420,700);
     setBlendMode(InWindowBlend);
     setMaskColor(DarkColor);
     setWindowFlags(Qt::FramelessWindowHint);
@@ -129,4 +131,29 @@ void ManFrame::metadataChanged()
     const QUrl &pictureUrl = value.value("mpris:artUrl").toString();
     const QPixmap &picture = QPixmap(pictureUrl.toLocalFile()).scaled(QSize(300, 300), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     m_coverLbl->setPixmap(picture);
+}
+
+void ManFrame::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        isMLBD = true;
+        m_point = event->pos();
+    }
+}
+
+void ManFrame::mouseMoveEvent(QMouseEvent *event)
+{
+    if (isMLBD) {
+        setCursor(Qt::ClosedHandCursor);
+        move(event->pos() - m_point + pos());
+    }
+}
+
+void ManFrame::mouseReleaseEvent(QMouseEvent *event)
+{
+    Q_UNUSED(event);
+    isMLBD = false;
+    setCursor(Qt::ArrowCursor);
+    //writeSettings(QDir::currentPath() + "/config.ini", "config", "X", QString::number(x()));
+    //writeSettings(QDir::currentPath() + "/config.ini", "config", "Y", QString::number(y()));
 }
