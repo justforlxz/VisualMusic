@@ -10,7 +10,7 @@ ManFrame::ManFrame(QWidget *parent)
     : DBlurEffectWidget(parent)
 {
     isMLBD = false;
-    resize(420,700);
+    //resize(420,700);
     setBlendMode(InWindowBlend);
     setMaskColor(DarkColor);
     setWindowFlags(Qt::FramelessWindowHint);
@@ -154,6 +154,4 @@ void ManFrame::mouseReleaseEvent(QMouseEvent *event)
     Q_UNUSED(event);
     isMLBD = false;
     setCursor(Qt::ArrowCursor);
-    //writeSettings(QDir::currentPath() + "/config.ini", "config", "X", QString::number(x()));
-    //writeSettings(QDir::currentPath() + "/config.ini", "config", "Y", QString::number(y()));
 }
