@@ -5,10 +5,22 @@
 #include <QVBoxLayout>
 #include <QDBusInterface>
 #include <QTimer>
+#include <DPlatformWindowHandle>
+
+DWIDGET_USE_NAMESPACE
 
 ManFrame::ManFrame(QWidget *parent)
     : DBlurEffectWidget(parent)
 {
+    DPlatformWindowHandle *platformWindowHandle = new DPlatformWindowHandle(this);
+
+    platformWindowHandle->setEnableBlurWindow(true);
+    platformWindowHandle->setTranslucentBackground(true);
+    platformWindowHandle->setWindowRadius(0);
+    platformWindowHandle->setBorderWidth(0);
+    platformWindowHandle->setShadowOffset(QPoint(0, 0));
+    platformWindowHandle->setShadowColor(QColor(0, 0, 0, 255 * 0.7));
+
     setBlendMode(InWindowBlend);
     setMaskColor(DarkColor);
     setWindowFlags(Qt::FramelessWindowHint);
