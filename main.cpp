@@ -11,6 +11,5 @@ int main(int argc, char *argv[])
     ManFrame w;
     w.show();
     moveToCenter(&w);
-
     return a.exec();
 }

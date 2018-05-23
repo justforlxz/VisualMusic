@@ -5,10 +5,17 @@
 #include <QVBoxLayout>
 #include <QDBusInterface>
 #include <QTimer>
+#include <QAction>
 
 ManFrame::ManFrame(QWidget *parent)
     : DBlurEffectWidget(parent)
 {
+    isMLBD = false;
+    QAction *action_quit = new QAction("退出", this);
+    connect(action_quit,SIGNAL(triggered(bool)),qApp,SLOT(quit()));
+    addAction(action_quit);
+    setContextMenuPolicy(Qt::ActionsContextMenu);
+    //resize(420,700);
     setBlendMode(InWindowBlend);
     setMaskColor(DarkColor);
     setWindowFlags(Qt::FramelessWindowHint);
@@ -129,4 +136,27 @@ void ManFrame::metadataChanged()
     const QUrl &pictureUrl = value.value("mpris:artUrl").toString();
     const QPixmap &picture = QPixmap(pictureUrl.toLocalFile()).scaled(QSize(300, 300), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     m_coverLbl->setPixmap(picture);
+}
+
+void ManFrame::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        isMLBD = true;
+        m_point = event->pos();
+    }
+}
+
+void ManFrame::mouseMoveEvent(QMouseEvent *event)
+{
+    if (isMLBD) {
+        setCursor(Qt::ClosedHandCursor);
+        move(event->pos() - m_point + pos());
+    }
+}
+
+void ManFrame::mouseReleaseEvent(QMouseEvent *event)
+{
+    Q_UNUSED(event);
+    isMLBD = false;
+    setCursor(Qt::ArrowCursor);
 }
