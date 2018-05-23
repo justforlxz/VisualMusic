@@ -5,11 +5,16 @@
 #include <QVBoxLayout>
 #include <QDBusInterface>
 #include <QTimer>
+#include <QAction>
 
 ManFrame::ManFrame(QWidget *parent)
     : DBlurEffectWidget(parent)
 {
     isMLBD = false;
+    QAction *action_quit = new QAction("退出", this);
+    connect(action_quit,SIGNAL(triggered(bool)),qApp,SLOT(quit()));
+    addAction(action_quit);
+    setContextMenuPolicy(Qt::ActionsContextMenu);
     //resize(420,700);
     setBlendMode(InWindowBlend);
     setMaskColor(DarkColor);
